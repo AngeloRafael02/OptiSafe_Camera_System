@@ -1,33 +1,37 @@
 #FOR UPLOADING IMAGES TO REMOTE LOCAL SMB SERVER
-#pip install pysmb
-import socket
 from dotenv import load_dotenv
-from smb.SMBConnection import SMBConnection
+import subprocess
 import os
 
-# Samba server configuration
 load_dotenv()
-server_name = os.getenv('FS_NAME'),
-server_user = os.getenv('FS_USER'),
-server_password = os.getenv('PASSWORD'),
-share_name = os.getenv('SHARE_NAME'),
 
+def mkdirSamba(remote_url, folder_name, samba_username):
+    # Construct the smbclient command
+    command = f"smbclient {remote_url} --user {samba_username} -c 'mkdir {folder_name}'"
+    try:
+        print(command)
+        subprocess.Popen(command, shell=True)
+        print(f"Folder '{folder_name}' successfully created on Samba server at '{remote_samba_path}'.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
 
-# Local file to upload
-#local_file_path = "path/to/your/file.jpg"
+def putSamba(remote_url, samba_username, local_file, dir_and_name):
+    # Construct the smbclient command
+    command = f"smbclient {remote_url} --user {samba_username} -c 'put {local_file} {dir_and_name}'"
+    try:
+        print(command)
+        subprocess.Popen(command, shell=True)
+        print(f"File '{dir_and_name}' successfully moved to '{dir_and_name}'.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
 
-# Destination path on the Samba share
-#remote_file_path = "path/on/remote/share/file.jpg"
+if __name__ == "__main__":
+    # Replace these variables with your actual values for testing
+    remote_samba_path = os.getenv('FS_SERVER')
+    folder_name = "testa"
+    username = os.getenv('FS_USER_PASSWORD')
+    local_file_path = "/home/angelorecio/Documents/VSCODE/OptiSafe_Camera_System/testFile.txt"
+    filename = f"testa/testFile.txt"
 
-
-def upload_screenshot(filePath, fileServerPath):
-    # Establish a connection to the Samba server
-    conn = SMBConnection(server_user, server_password, "client", server_name, use_ntlm_v2=True)
-    conn.connect(socket.gethostbyname(server_name), 445)
-
-    # Open the local file in binary mode and upload it to the Samba share
-    with open(filePath, "rb") as local_file:
-        conn.storeFile(share_name, fileServerPath, local_file)
-
-    # Close the connection
-    conn.close()
+    mkdirSamba(remote_samba_path, folder_name, username)
+    putSamba(remote_samba_path, username, local_file_path, filename)
