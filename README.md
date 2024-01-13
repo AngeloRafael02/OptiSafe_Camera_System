@@ -1,5 +1,6 @@
 # OptiSafe Camera Service
-This
+This is daemon Program run by SystemD that uses a Camera to monitor 
+and detect certain Personal Protective Equipemtn in the manufacturing Industry
 
 ## Packages needed 
 pip install psycopg2-binary
@@ -10,6 +11,7 @@ pip install ultralytics --no-cache-dir
 pip install pysmb
 
 ### DEV TO DO LIST:
+- Possible Switch from Postgres to mongoDB for Log Database 
 - Create Shell Script to deploy OptiSafe Camera Service
     - assign ip address via shell argument
     - move .service file to /etc/systemd/system
