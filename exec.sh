@@ -32,6 +32,13 @@ restart() {
     start
 }
 
+update(){
+    stop
+    cd /opt/OptiSafe_Camera
+    git pull --force
+    start
+}
+
 case "$1" in
     start)
         start
@@ -41,6 +48,9 @@ case "$1" in
         ;;
     restart)
         restart
+        ;;
+    update)
+        update
         ;;
     *)
         echo "Usage: $0 {start|stop|restart}"
