@@ -1,6 +1,6 @@
 # OptiSafe Camera Service
 This is daemon Program run by SystemD that uses a Camera to monitor 
-and detect certain Personal Protective Equipemtn in the manufacturing Industry
+and detect certain Personal Protective Equipment in the manufacturing Industry
 
 ## Packages needed 
 pip install psycopg2-binary
@@ -8,7 +8,7 @@ pip install python-dotenv
 pip install datetime
 pip install opencv-python 
 pip install ultralytics --no-cache-dir
-pip install pysmb
+pip install subprocess
 
 ### DEV TO DO LIST:
 - Possible Switch from Postgres to mongoDB for Log Database 
