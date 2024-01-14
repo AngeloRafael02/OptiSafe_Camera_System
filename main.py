@@ -19,7 +19,7 @@ cap = cv2.VideoCapture(0)
 now = datetime.now()
 show_live_camera = True  # Flag to toggle between live camera and uploaded content
 last_screenshot_time = time.time()  # Variable to track the last screenshot time
-screenshot_interval = 2  # Set the interval for taking screenshots (in seconds)
+screenshot_interval = 30  # Set the interval for taking screenshots (in seconds)
 
 def generate_frames():
     global last_screenshot_time
@@ -45,7 +45,7 @@ def generate_frames():
 
           
 def take_screenshot(results):
-    '''Takes a Screenshot and saves it to a designated directory'''
+    '''Takes a Screenshot and saves it to a file server and its metadata in a database'''
 
     #Setting up screenshot and metadata 
     hostname = socket.gethostname()
@@ -53,17 +53,16 @@ def take_screenshot(results):
     screenshot_fileLoc = f'screenshots/{hostname}_{current_time}.jpg' #temporary local storage location
     fileName = screenshot_fileLoc[len('screenshots/'):-len('.jpg')]
 
-
     #Create an array storing the frequencies of objects, 
     classArray = results[0].boxes.cls.numpy().copy()
-    objArray = [0] * (max(results[0].names)+1)
-    for value in classArray:
-        objArray[int(value)] += 1 # Counts the frequencies a class(index) is detected in frame 
-
     # Temporarily stores screenshot to local directory
     cv2.imwrite(screenshot_fileLoc, results[0].plot())
-    fs.upload_screenshot(screenshot_fileLoc,"192.168.68.110")
-    db.upload_metadata(fileName,screenshot_fileLoc,hostname,objArray)
+    newURL = f'{datetime.now().strftime("%Y-%m-%d")}/{hostname}'
+    # Add screenshot to File Server
+    fs.putSamba(screenshot_fileLoc, f'{newURL}/{screenshot_fileLoc}')
+    # Add screenshot metadata to Database
+    for value in classArray:
+        db.upload_metadata(fileName, newURL, os.getenv('HOSTNAME_ID'), value)
     
     # Delete Photos from temp directory 
     try:
