@@ -33,10 +33,15 @@ restart() {
 }
 
 update(){
-    stop
-    cd /opt/OptiSafe_Camera
-    git pull --force
-    start
+    if [ -f $PID_FILE ]; then
+        stop
+        cd /opt/OptiSafe_Camera
+        git pull --force
+        start
+    else
+        cd /opt/OptiSafe_Camera
+        git pull --force
+    fi
 }
 
 case "$1" in
