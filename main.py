@@ -55,11 +55,14 @@ def take_screenshot(results):
 
     #Create an array storing the frequencies of objects, 
     classArray = results[0].boxes.cls.numpy().copy()
+
     # Temporarily stores screenshot to local directory
     cv2.imwrite(screenshot_fileLoc, results[0].plot())
     newURL = f'{datetime.now().strftime("%Y-%m-%d")}/{hostname}'
+
     # Add screenshot to File Server
     fs.putSamba(screenshot_fileLoc, f'{newURL}/{screenshot_fileLoc}')
+    
     # Add screenshot metadata to Database
     for value in classArray:
         db.upload_metadata(fileName, newURL, os.getenv('HOSTNAME_ID'), value)
