@@ -4,17 +4,23 @@ distro=$(lsb_release -si 2>/dev/null || cat /etc/os-release | grep -oP '(?<=ID=)
 
 case $distro in
     Debian)
+        # update and upgrade machine before exection
         sudo apt update
         sudo apt -y upgrade
+        # Move Whole program to opt/ directory
         sudo mkdir -p /opt/OptiSafe_Camera
         sudo mv * /opt/OptiSafe_Camera
         cd /opt/OptiSafe_Camera
+        # copy .service file to /etcsystemd/system
         sudo cp optisafe.service /etc/systemd/system/optisafe.service
         if command -v python3 &>/dev/null; then
+            # Download pip and virtualvenv
             sudo apt install python3-pip -y
             sudo pip install virtualenv
+            # Create and Activate Virtual Environment
             sudo python3 -m venv .venv
             sudo source .venv/bin/activate
+            # install packages to .venv directory
             sudo pip install -r requirements.txt
             sudo chmod +x exec.sh
         else
