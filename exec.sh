@@ -58,5 +58,5 @@ case "$1" in
         update
         ;;
     *)
-        echo "Usage: $0 {start|stop|restart}"
+        echo "Usage: $0 {start|stop|restart|update}"
 esac
