@@ -1,6 +1,9 @@
 
-- Test fs.py module - Done
-- Test db.py module
+- Crete Samba File Server - Done
+    - Test fs.py module - Done
+- Create PostgreSQL Database - Done
+    - Test db.py module - Done
+- Create Web Server 
 
 - Test Overall main.py via exec.sh
 - Test install.sh
