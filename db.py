@@ -37,7 +37,3 @@ def upload_metadata(filename:str, fileURL:str,hostName_id:int, datetime, object:
         #Reconnect
         conn = connect()
         conn.cursor()
-
-if __name__ == "__main__":
-    from datetime import datetime
-    upload_metadata('test.txt', './',1,datetime.now(),1)
