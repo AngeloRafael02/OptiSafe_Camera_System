@@ -6,4 +6,5 @@
 - Create Web Server 
 
 - Test Overall main.py via exec.sh
-- Test install.sh
+    - TRUNCATE Database and Delete Images every test
+- Test install.sh   
