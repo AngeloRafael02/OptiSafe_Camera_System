@@ -5,7 +5,7 @@ import os
 
 load_dotenv()
 
-def mkdirSamba(folder_name):
+def mkdirSamba(folder_name:str):
     """Create a Directory on the OptiSafe File Server, folder name may also be an address"""
     # Construct the smbclient command
     command = f"smbclient {os.getenv('FS_SERVER')} --user {os.getenv('FS_USER_PASSWORD')} -c 'mkdir {folder_name}'"
@@ -16,7 +16,7 @@ def mkdirSamba(folder_name):
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
-def putSamba(local_file, dir_and_name):
+def putSamba(local_file:str, dir_and_name:str):
     """Uploads a File from the local Machine to the OptiSafe File Server"""
     # Construct the smbclient command
     command = f"smbclient {os.getenv('FS_SERVER')} --user {os.getenv('FS_USER_PASSWORD')} -c 'put {local_file} {dir_and_name}'"
