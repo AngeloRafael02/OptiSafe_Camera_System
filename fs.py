@@ -28,8 +28,8 @@ def putSamba(local_file:str, dir_and_name:str):
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
-def checkDir(folder):
-    """returns True if remote Smaba File Server Finds"""
+def checkDir(folder:str)->bool:
+    """returns True if remote Samba File Server Finds folder tp exist, returns False otherwise"""
     # smbclient command
     command = f"smbclient {os.getenv('FS_SERVER')} --user {os.getenv('FS_USER_PASSWORD')} -c 'cd  {folder} && exit'"
     try:
