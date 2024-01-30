@@ -1,22 +1,27 @@
 
-from datetime import datetime
+import datetime
 from ultralytics import YOLO
+from dotenv import load_dotenv
 import db
 import fs
 import threading
 import socket
+import signal
 import time
 import cv2
+import sys
 import os
 
+
+load_dotenv()
 # Crete temporary directory for screenshots
 os.makedirs('screenshots', exist_ok=True)
 # Load YOLO model
 model = YOLO('best.pt')
 # Open camera
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(os.getenv('RTSP_CAM'))
 
-now = datetime.now()
+now = datetime.datetime.now()
 show_live_camera = True  # Flag to toggle between live camera and uploaded content
 last_screenshot_time = time.time()  # Variable to track the last screenshot time
 screenshot_interval = 30  # Set the interval for taking screenshots (in seconds)
