@@ -34,14 +34,12 @@ def generate_frames():
             break
         else:
             results = model.track(frame, persist=True)
-
             if results and results[0].boxes:
                 current_time = time.time()
                 if current_time - last_screenshot_time >= screenshot_interval:
                     screenshot_thread = threading.Thread(target=take_screenshot, args=(results,))
                     screenshot_thread.start()  # Start a thread to take a screenshot
                     last_screenshot_time = current_time
-
             frame = results[0].plot()
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
